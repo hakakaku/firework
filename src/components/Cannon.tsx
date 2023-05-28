@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import React from "react";
 import * as THREE from "three";
+import { useGeometry } from "../utils/useGeometry";
 
 type Props = {
 	maxHeight: number;
@@ -21,10 +22,10 @@ export const Cannon: React.FC<Props> = ({ maxHeight, color, position }) => {
 				blending: THREE.AdditiveBlending,
 				depthTest: false,
 			}),
-		[]
+		[color]
 	);
 
-	const geometry = React.useMemo(() => new THREE.IcosahedronGeometry(1, 4), []);
+	const { ball, saturn } = useGeometry();
 
 	useFrame((state, delta) => {
 		const speed = 5 - pointsRef.current.position.y ** 1.1 / 50;
@@ -47,7 +48,7 @@ export const Cannon: React.FC<Props> = ({ maxHeight, color, position }) => {
 			ref={pointsRef}
 			position={position}
 			material={material}
-			geometry={geometry}
+			geometry={ball}
 		></points>
 	);
 };
